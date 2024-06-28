@@ -17,7 +17,7 @@
 
 <ion-content color="primary">
     <div class="banners">
-        <swiper-container [config]="config">
+        <swiper-container [pagination]="true">
             <swiper-slide *ngFor="let account of accounts">
                 <div align="center">
                     <ion-label>
@@ -29,4 +29,44 @@
             </swiper-slide>
         </swiper-container>
     </div>
+
+    <div class="ion-text-center feature-list" *ngIf="features.length > 0">
+        <swiper-container [slidesPerView]="3.5">
+            <swiper-slide *ngFor="let feature of features">
+                <div>
+                    <ion-button slot="icon-only" [color]="feature?.color">
+                        <ion-icon [name]="feature?.icon"></ion-icon>
+                    </ion-button>
+                    <ion-label>{{feature?.name}}</ion-label>
+                </div>
+            </swiper-slide>
+        </swiper-container>
+    </div>
+
+    <ion-list class="transactions" *ngIf="transactions.length > 0">
+
+        <ion-list-header>
+            <ion-label color="medium">Transactions</ion-label>
+        </ion-list-header>
+
+        <ion-item-group>
+            <ion-item lines="full" *ngFor="let transaction of transactions">
+                <ion-thumbnail slot="start" class="ion-text-center">
+                    <img [src]="'assets/imgs/' + (transaction.amount >= 0 ? 'up-right.png' : 'down-left-arrow.png')" />
+                </ion-thumbnail>
+                <ion-label>
+                    <ion-text>{{transaction?.to}}</ion-text>
+                    <p>
+                        <ion-text>
+                            {{transaction?.date | date: 'MMM d, y'}}
+                        </ion-text>
+                    </p>
+                </ion-label>
+                <ion-text slot="end" color="primary">
+                    {{transaction.amount >= 0 ? 'R$' + transaction?.amount : 'R$' + (transaction.amount * (-1))}}
+                </ion-text>
+            </ion-item>
+        </ion-item-group>
+
+    </ion-list>
 </ion-content>
